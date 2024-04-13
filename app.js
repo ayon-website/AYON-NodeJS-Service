@@ -39,7 +39,7 @@ app.get('/top5LaunchingRockets', async (req, res) => {
 });
 
 app.get('/top5GrowingSatellites', async (req, res) => {
-  res.send(await top5GrowingSatellites());
+  res.send(await top5GrowingSatellitesResult());
 });
 
 app.get('/top5ChannelsByLanguage', async (req, res) => { 

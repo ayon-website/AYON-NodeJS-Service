@@ -1,13 +1,13 @@
 const express = require('express');
 const cors = require('cors');
-const con = require('./sql/connection');
+const con = require('../sql/connection');
 const { top5ProvidersResult,      
         nearestToLocationResult,
         top5ProviderCoverageResult,
         top5LaunchingRocketsResult,
         top5GrowingSatellitesResult,
         top5ChannelsByLanguageResult,
-        filteredChannelsResult } = require('./sql/queries'); 
+        filteredChannelsResult } = require('../sql/queries'); 
 
 require('dotenv').config();
 
@@ -57,3 +57,5 @@ const port = process.env.LISTENING_PORT || 3001;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
+module.exports = app;

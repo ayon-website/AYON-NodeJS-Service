@@ -1,4 +1,4 @@
-var mysql = require("mysql2");
+var mysql = require("mysql2/promise");
 
 require("dotenv").config();
 
@@ -8,12 +8,12 @@ var password = process.env.DB_PASS;
 var database = process.env.DB_NAME;
 var port     = process.env.DB_PORT; 
 
-var con = mysql.createConnection({
+var con = mysql.createPool({
   host: hostname,
   user: username,
-  password,
-  database,
-  port,
+  password: password,
+  database: database,
+  port: port,
 });
 
 

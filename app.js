@@ -7,7 +7,7 @@ const { top5ProvidersResult,
         top5LaunchingRocketsResult,
         top5GrowingSatellitesResult,
         top5ChannelsByLanguageResult,
-        filteredChannelsResult } = require('./sql/sideTabFilter'); 
+        filteredChannelsResult } = require('./sql/queries'); 
 
 require('dotenv').config();
 
@@ -17,43 +17,38 @@ app.use(cors());
 
 // Define routes
 app.get('/', (req, res) => {
-    res.send('Hello, World!');
+    res.send('You are Connected');
 });
 
-app.get('/top5Providers', (req, res) => {
-  const top5Providers = top5ProvidersResult();
-  res.send(top5Providers);
+// TODO: change all these to query here, query string constants in queries.js only
+app.get('/top5Providers', async (req, res) => {
+  res.json(await top5ProvidersResult());
 });
 
-app.get('/nearestToLocation', (req, res) => { 
+app.get('/nearestToLocation', async (req, res) => { 
   const { longitude, lowerLim, upperLim } = req.query;
-  const nearestToLocation = nearestToLocationResult(longitude, lowerLim, upperLim);
-  res.send(nearestToLocation);
+  res.json(await nearestToLocationResult(longitude, lowerLim, upperLim));
 });
 
-app.get('/top5ProviderCoverage', (req, res) => {
-  const top5ProviderCoverage = top5ProviderCoverageResult();
-  res.send(top5ProviderCoverage);
+app.get('/top5ProviderCoverage', async (req, res) => {
+  res.json(await top5ProviderCoverageResult());
 });
 
-app.get('/top5LaunchingRockets', (req, res) => {
-  const top5LaunchingRockets = top5LaunchingRocketsResult();
-  res.send(top5LaunchingRockets);
+app.get('/top5LaunchingRockets', async (req, res) => {
+  res.json(await top5LaunchingRocketsResult());
 });
 
-app.get('/top5GrowingSatellites', (req, res) => {
-  const top5GrowingSatellites = top5GrowingSatellitesResult();
-  res.send(top5GrowingSatellites);
+app.get('/top5GrowingSatellites', async (req, res) => {
+  res.send(await top5GrowingSatellites());
 });
 
-app.get('/top5ChannelsByLanguage', (req, res) => { 
-  const top5ChannelsByLanguage = top5ChannelsByLanguageResult();
-  res.send(top5ChannelsByLanguage);
+app.get('/top5ChannelsByLanguage', async (req, res) => { 
+  res.send(await top5ChannelsByLanguageResult());
 });
 
-app.get('/filteredChannels', (req, res) => {
+app.get('/filteredChannels', async (req, res) => {
   const { region, satellite, video, language } = req.query;
-  const filteredChannels = filteredChannelsResult(region, satellite, video, language);
+  const filteredChannels = await filteredChannelsResult(region, satellite, video, language);
   res.send(filteredChannels);
 });
 
@@ -61,13 +56,4 @@ app.get('/filteredChannels', (req, res) => {
 const port = process.env.LISTENING_PORT || 3001;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
-});
-
-con.connect(function (err) {
-  if (err) throw err;
-  console.log("Connected!");
-});
-
-con.query("SELECT * FROM providers LIMIT 5;").on("result", function (row) {
-  console.log(row);
 });

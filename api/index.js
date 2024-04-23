@@ -43,7 +43,8 @@ app.get('/top5GrowingSatellites', async (req, res) => {
 });
 
 app.get('/top5ChannelsByLanguage', async (req, res) => { 
-  res.send(await top5ChannelsByLanguageResult());
+  const { language } = req.query;
+  res.send(await top5ChannelsByLanguageResult(language));
 });
 
 app.get('/filteredChannels', async (req, res) => {
